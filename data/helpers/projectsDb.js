@@ -2,15 +2,17 @@ const db = require('../dbConfig.js');
 
 module.exports = {
     getProjects,
-    getProject,
-    addProject
+    getProjectbyId,
+    addProject,
+    deleteProject,
+    updateProject
 };
 
 function getProjects() {
     return db('projects')
 }
 
-function getProject(id) {
+function getProjectbyId(id) {
     return db('projects')
         .where({ id })
         .first();
@@ -23,3 +25,15 @@ function addProject(project) {
             return getProject(ids[0])
         });
 }
+
+function deleteProject(id) {
+    return db('projects')
+        .where({ id })
+        .del()
+}
+
+function updateProject(id, changes) {
+    return db('projects')
+        .where({ id })
+        .update(changes)
+} 

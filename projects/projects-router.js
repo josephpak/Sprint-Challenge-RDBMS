@@ -17,7 +17,7 @@ router.get('/', async (req,res) => {
 
 router.get('/:id', async (req,res) => {
     try {
-        const project = await Projects.getProject(req.params.id)
+        const project = await Projects.getProjectbyId(req.params.id)
         const actionsArray = await Actions.getActionsbyProject(req.params.id)
         const modified = {...project, actions: actionsArray}
         res.status(200).json(modified)
@@ -33,6 +33,40 @@ router.post('/', async (req,res) => {
     } catch (error) {
         res.status(500).json(error)
     }   
+})
+
+router.delete('/:id', async (req,res) => {
+    try {
+        const count = await Projects.deleteProject(req.params.id)
+        if (count > 0) {
+            res.status(200).json({
+                message: 'Project has been deleted'
+            })
+        } else {
+            res.status(400).json({
+                message: 'Project could not be found'
+            })
+        }
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+router.put('/:id', async (req,res) => {
+    try {
+        const check = await Projects.updateProject(req.params.id, req.body)
+        if (check === 1) {
+            res.status(200).json({
+                message: 'Updated successfully!'
+            })
+        } else {
+            res.status(404).json({
+                message: 'Project could not be found'
+            })
+        }
+    } catch (error) {
+        res.status(500).json(error)
+    }
 })
 
 module.exports = router;
