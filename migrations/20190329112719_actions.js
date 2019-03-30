@@ -12,6 +12,8 @@ exports.up = function(knex, Promise) {
 
         tbl.integer('project_id').unsigned().references('id').inTable('projects')
         .notNullable()
+        .onDelete('RESTRICT')
+        .onUpdate('CASCADE')
     })
 };
 

@@ -2,6 +2,8 @@ const express = require('express');
 
 const Actions = require('../data/helpers/actionsDb.js')
 
+const Contexts = require('../data/helpers/contextsDb')
+
 const router = express.Router();
 
 router.get('/', async (req,res) => {
@@ -25,7 +27,9 @@ router.post('/', async (req,res) => {
 router.get('/:id', async (req,res) => {
     try {
         const action = await Actions.getActionbyId(req.params.id)
-        res.status(200).json(action)
+        const contexts = await Contexts.getContextsbyAction(req.params.id)
+        const modified = {...action, contexts}
+        res.status(200).json(modified)
     } catch (error) {
         res.status(500).json(error)
     }

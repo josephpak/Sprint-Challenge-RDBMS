@@ -4,9 +4,13 @@ exports.up = function(knex, Promise) {
         
         tbl.integer('context_id').unsigned().references('id').inTable('contexts')
         .notNullable()
+        .onDelete('RESTRICT')
+        .onUpdate('CASCADE')
 
         tbl.integer('action_id').unsigned().references('id').inTable('actions')
         .notNullable()
+        .onDelete('RESTRICT')
+        .onUpdate('CASCADE')
     })
 };
 
